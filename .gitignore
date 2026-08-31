@@ -1,0 +1,42 @@
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+secrets.env
+subscription-urls.txt
+
+# Generated client configurations and temporary diagnostics
+clash.yaml
+clash-*.yaml
+*.subscription.yaml
+.codex-*
+*.tmp
+*.log
+
+# Cloudflare / Node local state
+**/.wrangler/
+**/node_modules/
+**/.dev.vars
+.local-backups/
+**/wrangler.local.jsonc
+__pycache__/
+*.pyc
+
+# Editors and operating systems
+.worktrees/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Backups
+*.bak
+*.backup
+*~

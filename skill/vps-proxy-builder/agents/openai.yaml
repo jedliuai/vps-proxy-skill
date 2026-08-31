@@ -1,0 +1,4 @@
+interface:
+  display_name: "VPS Proxy Builder"
+  short_description: "Codex-led VPS proxy deployment, checks and recovery"
+  default_prompt: "Use $vps-proxy-builder to inspect my VPS, guide SSH setup, and deploy and verify a private proxy within my approved scope."

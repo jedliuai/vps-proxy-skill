@@ -1,0 +1,29 @@
+name: Validate repository
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Repository security and deployment checks
+        shell: pwsh
+        run: ./scripts/validate-repo.ps1
+
+      - name: Readiness, entrypoint and migration tests
+        run: |
+          set -euo pipefail
+          python3 -B scripts/test-preflight.py
+          python3 -B scripts/test-entrypoint.py
+          python3 -B scripts/test-trojan-migration.py
