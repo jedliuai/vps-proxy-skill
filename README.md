@@ -195,9 +195,9 @@ Repository pins / 仓库固定版本：Xray `v26.3.27` · Hysteria2 `v2.12.1` ·
 
 ## 🧪 Evidence, not promises · 验证边界
 
-原美国实例在 **2026-08-31** 的短时测试记录：Trojan **100/100**（约151秒），原 HY2 与 REALITY 各 **6/6**，主备订阅一致。这不是全新 VPS 自动安装的实测、带宽测试或 SLA；ChatGPT 浏览器与晚高峰长时体验仍不在该次验收范围。[历史记录](./worklog/2026-08-31-Trojan最小迁移与原节点保护.md)
+仓库提供本地隐私模式扫描、部署静态检查，以及 Worker、主机预检、运维入口和端口迁移测试。它们验证工具行为，不代表某台 VPS 已经安装成功，也不能替代真实客户端、家庭网络和晚高峰验收。[验收参考](./skill/vps-proxy-builder/references/validation.md)
 
-These are dated results from the original US instance—not fresh-server automation results or an uptime guarantee. This skill must collect new evidence for every user's host. Local tests and simulated Codex walkthroughs do not replace a clean-VM deployment or home-network acceptance.
+Local checks cover secret patterns, deployment invariants, the Worker, readiness checks, the entrypoint and port migration. They are not fresh-server deployment results or an uptime guarantee. The skill must collect new evidence for every user's host, including real-client and home-network acceptance.
 
 ```text
 pwsh scripts/validate-repo.ps1
@@ -223,11 +223,9 @@ git diff --check
 | [验收 / Validation](./skill/vps-proxy-builder/references/validation.md) | 逐协议、用户网络、两链接交付 |
 | [deploy/](./deploy/) · [scripts/](./scripts/) · [Worker](./cloudflare-worker/) | 可审查的执行源码与测试 / Source and tests |
 | [SECURITY.md](./SECURITY.md) | 凭据与泄漏处理 / Credential boundaries |
-| [原实例运维记录](./docs/美国单实例代理运维.md) · [整体方案](./美国单实例代理整体方案.md) · [worklog/](./worklog/) | 历史事实，不是新用户默认配置 / Historical evidence, not user defaults |
+| [worklog/](./worklog/) | 公共工具箱的维护记录，不存放个人实例档案 / Public project maintenance notes, not private host records |
 
-历史 n8n 文档仅用于记录实例沿革，不属于当前代理栈。Historical n8n files are archival, not part of this stack.
-
-历史记录来自项目的私有前身，已脱敏保留；其中提到的旧仓库名称或 Private 状态不代表本公开仓库的当前状态。本仓库从独立初始提交开始，不继承旧 Git 历史。Historical notes are anonymized records from the private predecessor; old names and visibility statements describe that earlier project. This public repository starts with an independent initial commit.
+公开仓库只保留可复用的 Skill、脚本、测试和维护说明。个人实例配置、运行日志、订阅及备份不属于公共文档；复用排障方法请读 Skill 参考，而不是复制某个人的服务器记录。This repository keeps reusable skills, source, tests and project notes. Personal host inventories, runtime logs, subscriptions and backups do not belong here; use the skill's incident playbooks instead.
 
 ---
 

@@ -8,7 +8,7 @@ The skill requires a full checkout. If installed separately, locate the user's c
 
 ## Safety and scope
 
-- Use only the user's explicitly selected host, domains and cloud account. Original instance information in historical Chinese documents is evidence, never defaults for a new user.
+- Use only the user's explicitly selected host, domains and cloud account. Example addresses and template labels are never a user's actual configuration.
 - Read `SECURITY.md`. Never print or commit credentials, subscription URLs/payloads, or sensitive logs. Keep private files outside Git, with restrictive filesystem permissions.
 - Do not change live services, rotate secrets, buy resources or publish this repository as a consequence of a documentation task.
 - `deploy/server-bootstrap.sh` and its sibling `deploy/preflight.py` travel together. The gate runs before bootstrap mutations. Do not bypass it; unsupported systems require a separately reviewed adaptation.
@@ -21,6 +21,8 @@ The skill requires a full checkout. If installed separately, locate the user's c
 Keep changes scoped, preserve user edits, and prefer deterministic existing scripts over third-party panel installers. Use `codex/` when a branch is needed. Do not push to the author's repository on behalf of a new user; use their own authorized fork/remote.
 
 This public repository has independent Git history. Never merge or mirror-push the private predecessor's history, backups or runtime files into it.
+
+Keep public files focused on reusable deployment tooling. Do not add personal host inventories, unrelated application tutorials, raw incident logs, real infrastructure identifiers or private backup locations, even as worklogs. Store operational handoff details in owner-only files outside the public checkout; public worklogs describe code changes, generic lessons and redacted verification results.
 
 Run local checks before claiming completion:
 

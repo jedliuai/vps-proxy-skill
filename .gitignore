@@ -8,6 +8,7 @@
 *.pfx
 id_rsa*
 id_ed25519*
+id_ecdsa*
 secrets.env
 subscription-urls.txt
 
@@ -15,6 +16,11 @@ subscription-urls.txt
 clash.yaml
 clash-*.yaml
 *.subscription.yaml
+v2ray.txt
+*.subscription.txt
+*.har
+*.bundle
+/private/
 .codex-*
 *.tmp
 *.log

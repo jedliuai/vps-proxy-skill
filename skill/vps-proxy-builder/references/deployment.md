@@ -64,8 +64,8 @@ Cloudflare 不是成功搭建节点的必要条件。用户暂不授权 Cloudfla
 
 官方资料（执行时核实变更）：[Wrangler 命令](https://developers.cloudflare.com/workers/wrangler/commands/)、[KV](https://developers.cloudflare.com/kv/)、[Workers secrets](https://developers.cloudflare.com/workers/configuration/secrets/)。
 
-## E. 原实例与历史操作
+## E. 已有节点与定向迁移
 
-[原实例运维记录](../../../docs/美国单实例代理运维.md)用于理解历史，不是新用户的默认命令。Trojan 443→10443 的 `deploy/migrate-trojan-port.py` 是旧布局的定向迁移工具，不是通用端口编辑器。当前新部署已使用 10443，不需要运行迁移。
+Trojan 443→10443 的 `deploy/migrate-trojan-port.py` 是旧布局的定向迁移工具，不是通用端口编辑器。仅在已有节点符合其检查条件且用户批准迁移时使用；判断与恢复边界见 [诊断参考](troubleshooting.md)。当前新部署已使用 10443，不需要运行迁移。
 
 完整重部署会下载固定二进制、重建配置并重启 Xray/Hysteria；`restart` 同样影响两个协议服务。只更新订阅或修一个端口时不要执行这两项。已有用户迁移到本仓库新版只改变本地脚本，不要求重跑服务器安装。

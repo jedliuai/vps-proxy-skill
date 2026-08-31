@@ -9,7 +9,7 @@ description: "Use Codex to prepare SSH, deploy, validate, troubleshoot or recove
 
 ## 先定位，再行动
 
-本技能依赖整个 `vps-proxy-skill` 仓库，不是独立安装包。从当前工作目录定位包含 `deploy/server-bootstrap.sh`、`deploy/preflight.py`、`cloudflare-worker/` 的仓库。若技能被单独复制到个人技能目录，先获取用户可访问的完整仓库并切换到它；不要相对个人技能目录运行部署。记录本次 Git revision。历史域名、IP、SSH alias、Cloudflare ID 与 `US-*` 名称都是原实例记录，不是用户配置。
+本技能依赖整个 `vps-proxy-skill` 仓库，不是独立安装包。从当前工作目录定位包含 `deploy/server-bootstrap.sh`、`deploy/preflight.py`、`cloudflare-worker/` 的仓库。若技能被单独复制到个人技能目录，先获取用户可访问的完整仓库并切换到它；不要相对个人技能目录运行部署。记录本次 Git revision。文档示例与模板 `US-*` 名称不是用户配置；实际域名、IP、SSH alias 和 Cloudflare ID 必须另行验证，不写入公开文件。
 
 依据请求选择模式：
 
@@ -52,4 +52,4 @@ description: "Use Codex to prepare SSH, deploy, validate, troubleshoot or recove
 
 报告已测试/失败/待用户测试，保留版本、日期、回滚位置、证书续期状态和费用边界。无法在用户家庭网络测试时应明确“服务器部署完成，家庭网络验收待完成”，不能写成全部验收成功。
 
-每个完整阶段写中文 `worklog/YYYY-MM-DD-标题.md`：做了什么、为什么、决策/坑、一句话亮点。恢复长任务只读脱敏记录与当前状态，再继续未完成步骤；不从头部署，不记录凭据。把新故障的条件、证据和可复用修复补入参考，而非把个案扩大成通用结论。
+每个完整阶段写中文 `worklog/YYYY-MM-DD-标题.md`：做了什么、为什么、决策/坑、一句话亮点。公开 worklog 只保留通用结论、目标代号和脱敏结果；真实地址、账号、日志和恢复路径留在用户独占的仓库外文件。恢复长任务只读授权记录与当前状态，再继续未完成步骤；不从头部署，不记录凭据。把新故障的条件、证据类型和可复用修复补入参考，不附个人实例档案，也不把个案扩大成通用结论。
