@@ -77,7 +77,7 @@ git diff --check
 
 These checks do not connect to a VPS. Operational references are currently in Chinese; Codex should explain them in your language.
 
-[Prerequisites](./skill/vps-proxy-builder/references/prerequisites.md) · [Troubleshooting](./skill/vps-proxy-builder/references/troubleshooting.md) · [Validation](./skill/vps-proxy-builder/references/validation.md) · [Security](./SECURITY.md) · [Feedback](./CONTRIBUTING.md) · [Architecture](./README.md#architecture)
+[Prerequisites](./skill/vps-proxy-builder/references/prerequisites.md) · [Troubleshooting](./skill/vps-proxy-builder/references/troubleshooting.md) · [Validation](./skill/vps-proxy-builder/references/validation.md) · [Security](./SECURITY.md) · [Feedback](./CONTRIBUTING.md) · [Deployment details](./skill/vps-proxy-builder/references/deployment.md)
 
 Maintained by [jedliuai](https://github.com/jedliuai), who builds AI-native systems for solo creators. Explore [the author's public projects](https://github.com/jedliuai?tab=repositories). Star to bookmark, watch releases for version updates, and cite the repository plus a tag/commit when sharing reproducible work. Never share your subscription credentials.
 
