@@ -5,9 +5,31 @@
 ### 你准备VPS服务器，Codex 全自动交付VPN节点。
 
 **把这个仓库地址发给 Codex，Codex帮你全自动搭好自己的 VPN 节点。**
-**一次交付3种目前最强的VPN节点：Hysteria2、Trojan、VLESS REALITY**
-**一次交付支持 Clash，小火箭，V2Ray 的订阅链接，并一键导入**
-**1个skill浓缩了我5年的翻墙经验和VPN节点搭建经验，也浓缩和吸收了我看过的无数youtube大神教程和X大神教程**
+
+<br>
+
+<table>
+  <tr>
+    <td align="center" valign="top" width="50%">
+      <h3>⚡ 三种强力节点</h3>
+      <p><strong>一次交付3种目前最强的VPN节点：</strong></p>
+      <p>Hysteria2 · Trojan · VLESS REALITY</p>
+    </td>
+    <td align="center" valign="top" width="50%">
+      <h3>🔗 订阅一键导入</h3>
+      <p><strong>一次交付支持 Clash，小火箭，V2Ray 的订阅链接，并一键导入</strong></p>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <h3>💎 五年经验 · 一个 Skill</h3>
+      <p><strong>1个skill浓缩了我5年的翻墙经验和VPN节点搭建经验，</strong><br>
+      也浓缩和吸收了我看过的无数youtube大神教程和X大神教程</p>
+    </td>
+  </tr>
+</table>
+
+<br>
 
 ![Codex](https://img.shields.io/badge/Built_for-Codex-18181B?style=for-the-badge)
 ![Protocols](https://img.shields.io/badge/节点方案-3_种-0F766E?style=for-the-badge)
