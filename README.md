@@ -2,20 +2,19 @@
 
 # 🌐 VPS Proxy Skill
 
-### Codex Skill for Self-hosted VPN & Proxy Deployment
+Codex Skill for self-hosted VPS proxies · 从 SSH 准备到节点验收与恢复
 
-**你准备服务器，Codex 负责把它变成可用的私人节点。**
+**把仓库地址交给 Codex，让它按可审查的流程搭建和维护你的私人代理。**
 
-面向自建 VPN、翻墙、科学上网与“魔法”网络配置的 Codex Skill：在自己的 VPS 上部署 Hysteria2、Trojan、VLESS REALITY，生成 Clash / Mihomo、V2Ray 与小火箭订阅。
+一个 Codex Skill，配套部署脚本、测试与故障手册：在自己的 VPS 上配置 Hysteria2、Trojan、VLESS REALITY，交付 Clash / Mihomo 与 V2Ray / 小火箭订阅。不是免费节点合集，也不是代理服务商。
 
-![Codex workflow](https://img.shields.io/badge/Built_for-Codex-18181B?style=for-the-badge)
-![Skill](https://img.shields.io/badge/One_Skill-Setup_to_Recovery-0F766E?style=for-the-badge)
-![Server](https://img.shields.io/badge/Baseline-Debian_13_x86__64-A81D33?style=for-the-badge&logo=debian&logoColor=white)
-![Cloudflare](https://img.shields.io/badge/Cloudflare-Optional-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)
+[![Repository checks](https://github.com/jedliuai/vps-proxy-skill/actions/workflows/validate.yml/badge.svg)](https://github.com/jedliuai/vps-proxy-skill/actions/workflows/validate.yml)
+[![Release notes](https://img.shields.io/badge/release-v0.1.0--preview.1-blue)](https://github.com/jedliuai/vps-proxy-skill/releases/tag/v0.1.0-preview.1)
+![Baseline](https://img.shields.io/badge/baseline-Debian_13_x86__64-A81D33)
 
-[中文](#中文) · [English](#english) · [打开技能 / Skill](./skill/vps-proxy-builder/SKILL.md) · [架构 / Architecture](#architecture) · [项目地图 / Map](#project-map)
+[快速开始](#quick-start) · [English](./README.en.md) · [交付示例](./docs/handoff-example.md) · [Skill](./skill/vps-proxy-builder/SKILL.md) · [Releases](https://github.com/jedliuai/vps-proxy-skill/releases)
 
-少刷一份教程，多交付一个能验证、能维护、能恢复的结果。
+You bring the VPS. Codex follows the setup, verification and recovery workflow.
 
 </div>
 
@@ -23,17 +22,19 @@
 
 ## 中文
 
-### ✨ 不再让每个人从头学一遍搭建节点
+### 适合谁，为什么用它？
 
-这个项目把一次真实 VPS 部署中的脚本、问题、修复方法和判断依据，整理成了 **一个 Codex 专用 Skill**。
+适合已经有（或准备购买）专用 VPS、希望自建私人代理，却不想逐项拼接 SSH、TLS、订阅和防火墙教程的人。也适合把已有节点交给 Codex 排障：技能要求先诊断、保住可用配置，而不是遇错就重装。
 
-如果你正在寻找“Codex 自动搭建节点”“VPS 翻墙教程”“自建 VPN”“科学上网”或“魔法上网”的部署方案，这里提供的是一套可审查、可执行的代理自动化工作流，而不是公共机场、免费节点合集或订阅售卖服务。
+它的区别不在于又支持一种协议，而在于把**准备 → 授权 → 部署 → 逐协议验收 → 维护恢复**连起来，并提供可检查的源码和测试。常被称为“自建 VPN”“翻墙”“科学上网”或“魔法”的需求，在这里具体指自托管应用代理，而非 WireGuard / OpenVPN。
 
-你不必先去 YouTube 或 X 拼接教程，再逐项研究 TLS、systemd、订阅格式和防火墙。把仓库交给能执行终端命令的 Codex，让它检查环境、指导 SSH、完成配置、逐项验收，并留下以后能接着维护的记录。
+**开始前只需确认：**专用 Debian 13 x86_64 VPS、systemd、SSH 22、公网 IPv4、自己控制的域名，以及能使用终端和网络的 Codex。不会 SSH 可以让它指导；Cloudflare 和 GitHub 插件均不是直连部署的前提。
 
 **目标是自动完成已授权的技术工作，不是跳过人的控制权。** 购买、账号登录、MFA、必要授权和无法远程代办的家庭网络测试，仍需要你参与。
 
-### 🚀 复制给你的 Codex
+<a id="quick-start"></a>
+
+### 🚀 Quick Start：复制给你的 Codex
 
 ```text
 请使用这个仓库，帮我在自己的 VPS 上搭建私人代理节点：
@@ -54,6 +55,17 @@ skill/vps-proxy-builder/SKILL.md，按其中的流程执行。
 > 这是一个可公开读取的独立仓库，可以直接把上面的地址发给 Codex。代码公开不等于提供免费节点或授予云账号权限：你仍需准备自己的 VPS、域名和授权。仓库不包含作者的实际订阅、密钥或运行配置；详见 [安全约定](./SECURITY.md)。
 
 **不必先全局安装技能。** 把完整仓库作为 Codex 项目打开，它可按 `AGENTS.md` 读取技能。`skill/` 不是 Codex 默认自动扫描目录，因此提示词明确给出文件路径。若另行安装了技能，也需要完整仓库中的部署脚本。[Codex 技能说明](https://learn.chatgpt.com/docs/build-skills)
+
+想固定版本复现，可让 Codex 使用预览版，或自行克隆后打开目录：
+
+```sh
+git clone --branch v0.1.0-preview.1 https://github.com/jedliuai/vps-proxy-skill.git
+cd vps-proxy-skill
+```
+
+[Release](https://github.com/jedliuai/vps-proxy-skill/releases/tag/v0.1.0-preview.1) 提供版本说明和源码下载。建议通过 Git 克隆：仓库检查依赖 Git 文件清单，源码 ZIP 不是独立安装器。固定的是工具箱版本，**不是每次重新安装服务器**。
+
+完成后应得到两个按客户端标记的私密订阅入口、逐项测试结果和维护恢复说明。先看[无真实凭据的交付示例](./docs/handoff-example.md)，了解应该向 Codex 要什么。
 
 ### 🧰 要安装哪些插件？
 
@@ -90,7 +102,7 @@ ARM、Ubuntu、自定义 SSH 端口、仅 IPv6/NAT 或共享业务主机暂不�
 - 私钥、密码与真实订阅不进 Git，也不交给公共订阅转换网站。
 - 先保住可用节点，再做最小修复；第一次安装失败先诊断，不无限重试。
 
-首次使用此公开版本请独立克隆 `vps-proxy-skill`，不要合并旧私有仓库的 Git 历史；之后正常更新本仓库即可。**不需要为了安装这个 Skill 重部署线上节点**。新版完整部署要求显式参数及 SSH/变更/CA 条款确认，见[部署参考](./skill/vps-proxy-builder/references/deployment.md)。
+**不需要为了更新这个 Skill 重部署线上节点**。完整部署要求显式参数及 SSH/变更/CA 条款确认，见[部署参考](./skill/vps-proxy-builder/references/deployment.md)。
 
 ### 💡 把真实踩坑经验交给下一次部署
 
@@ -104,7 +116,7 @@ ARM、Ubuntu、自定义 SSH 端口、仅 IPv6/NAT 或共享业务主机暂不�
 
 三个协议共享一台 VPS 的出口，不能变成多个国家，也不提供跨服务器高可用。Cloudflare 在这里仅分发订阅，不改善主要跨境数据链路，不保证任何网站永久接受该 IP。使用应符合服务提供商条款及适用要求。
 
-### ❓ 搜索这些词时，你会得到什么？
+### ❓ 常见问题
 
 **这是传统 VPN 服务吗？** 搜索中常把此类需求称为“自建 VPN”，但本仓库实际部署的是 Hysteria2、Trojan 和 VLESS REALITY 代理，不是 WireGuard / OpenVPN，也不承诺接管整台设备的所有流量。
 
@@ -116,57 +128,7 @@ ARM、Ubuntu、自定义 SSH 端口、仅 IPv6/NAT 或共享业务主机暂不�
 
 ## English
 
-### ✨ Give Codex the repository, not a pile of tutorials
-
-VPS Proxy Skill packages a real deployment's scripts, incidents, fixes and decision rules into **one Codex-specific skill**. Codex handles SSH preparation, configuration, diagnosis, validation and handoff, so every user does not have to reconstruct the workflow from videos and posts.
-
-For users searching for **self-hosted VPN, VPS proxy setup, censorship circumvention, or automated proxy deployment**, this repository provides Hysteria2, Trojan and VLESS REALITY automation with Clash/Mihomo and V2Ray/Shadowrocket subscriptions. It deploys application proxies—not WireGuard/OpenVPN—and does not provide public servers or free subscription lists.
-
-Automation covers **authorized technical work**. You retain control over purchases, account sign-in, MFA, permissions and any home-network checks Codex cannot perform remotely. This is not a promise that every model or environment can finish unattended.
-
-### 🚀 Copy into Codex
-
-```text
-Use https://github.com/jedliuai/vps-proxy-skill to set up a private proxy on my VPS.
-Obtain the complete repository and read AGENTS.md and
-skill/vps-proxy-builder/SKILL.md before acting.
-Check your tools, repository access and my server's prerequisites first.
-Help me prepare SSH if needed; never ask for private-key contents.
-Explain the target host and planned changes, then complete the approved work.
-Verify direct subscriptions first; use Cloudflare only when needed and authorized.
-Do not overwrite existing services, disable TLS verification or commit credentials.
-Deliver two verified subscription entries for Clash and V2Ray/Shadowrocket,
-test results with unverified items clearly marked, and recovery instructions.
-Ask for my participation when account access, purchases or new authority is needed.
-```
-
-> [!IMPORTANT]
-> This is an independent, publicly readable repository: you can give the URL directly to Codex. Public code does not provide free proxy servers or cloud-account access. Bring your own VPS, domain and authorization. The repository excludes the author's live subscriptions, secrets and runtime configuration. See [Security](./SECURITY.md).
-
-Open the full checkout as a Codex project; global skill installation is unnecessary. `AGENTS.md` points to the skill explicitly because the singular `skill/` directory is not a default discovery location. An independently installed copy still requires the full repository. [Official skill documentation](https://learn.chatgpt.com/docs/build-skills)
-
-### 🧰 Tools, not a mandatory plugin bundle
-
-Codex needs terminal/network access, Git and OpenSSH. A GitHub connector is convenient but an authenticated Git/`gh` workflow also works. The Cloudflare plugin is recommended **only for Cloudflare delivery**; inspect its actual tools and permissions, then use authorized API/Wrangler operations where needed. Browser control is optional for console assistance. Installation alone does not grant account permissions. [Official plugin documentation](https://learn.chatgpt.com/docs/plugins)
-
-The user provides the VPS, an initial SSH route, a controlled domain and authorization. Codex prepares the technical setup, verifies a fresh non-root key login and sudo, preserves recovery access, deploys and tests each protocol, then delivers a minimal client handoff. Codex itself does not need to run on the VPS.
-
-### 📦 Supported baseline and safety
-
-- Dedicated **Debian 13 / x86_64 / systemd / SSH 22 / public IPv4**, plus a controlled domain for valid TLS certificates.
-- ARM, Ubuntu, custom SSH ports, IPv6-only/NAT-only and shared application hosts require a separately reviewed adaptation. They are not silently supported.
-- Cloudflare is optional: validated direct HTTPS subscriptions are enough to start. The generated template assumes China-oriented routing and historical `US-*` labels; adapt labels/policies to the actual region.
-- Explicit user parameters, a read-only readiness gate, independently verified SSH access, checksums, deployment locking and backups precede changes. The bootstrap is **not** a transactional full-system rollback tool.
-- Preserve functioning nodes; diagnose before upgrading, rotating credentials or redeploying. Never commit secrets or send them to public subscription converters.
-- Clone `vps-proxy-skill` independently; do not merge old private Git history into it. Existing installations do not need a live redeployment to adopt this skill. The updated full-deploy entrypoint requires explicit parameters and SSH/change/CA confirmations.
-
-The skill includes practical incident playbooks for fallback relay traffic, connection storms, rate-limit exhaustion, TLS permissions, renewal, stale KV, client-format detection and misleading “subscription refresh fixed it” behavior. Detailed operational references are in Chinese; Codex should explain and execute them in the user's language.
-
-### 💰 Boundaries
-
-Users pay their own VPS, public IP, bandwidth, domain, optional Cloudflare and Codex costs. Historical trial credits are not transferable; budget alerts are not spending caps. One VPS has one exit location, not three countries or multi-server high availability. Cloudflare distributes subscriptions; it does not optimize the main proxy path or guarantee third-party site access.
-
----
+Read the **[English quick start and project overview](./README.en.md)**. Operational references are currently in Chinese; Codex should explain them in your language.
 
 <a id="architecture"></a>
 
@@ -208,6 +170,14 @@ git diff --check
 ```
 
 以上检查不连接 VPS。The checks above do not connect to a VPS.
+
+## 维护、反馈与作者 / Maintenance and author
+
+由 [jedliuai](https://github.com/jedliuai) 维护，属于作者围绕 AI agents 与个人创作工具的实践。可以在[作者的其他公开项目](https://github.com/jedliuai?tab=repositories)中继续了解这些方向。
+
+遇到问题请先读[排障手册](./skill/vps-proxy-builder/references/troubleshooting.md)，再按[反馈指南](./CONTRIBUTING.md)提交脱敏的可复现信息。不承诺响应时限或代管服务器。若项目有帮助，可以 Star 收藏、Watch → Custom → Releases 关注版本，或分享仓库和具体版本；不要分享自己的订阅。引用时注明 `jedliuai/vps-proxy-skill` 和 tag/commit，便于复现。
+
+**许可状态：目前尚未选择开源许可证。** 公开可读不等于授予所有复用、分发或商业授权；需要这些权限时请先向作者确认。详见 [GitHub 许可证说明](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)。
 
 <a id="project-map"></a>
 
