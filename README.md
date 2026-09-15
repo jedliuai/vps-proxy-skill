@@ -4,8 +4,6 @@
 
 ### 你准备VPS服务器，Codex 全自动交付VPN节点。
 
-**把这个仓库地址发给 Codex，Codex帮你全自动搭好自己的 VPN 节点。**
-
 <br>
 
 <table>
@@ -17,7 +15,9 @@
     </td>
     <td align="center" valign="top" width="50%">
       <h3>🔗 订阅一键导入</h3>
-      <p><strong>一次交付支持 Clash，小火箭，V2Ray 的订阅链接，并一键导入</strong></p>
+      <p><strong>一次交付适配订阅</strong></p>
+      <p>Clash · 小火箭 · V2Ray</p>
+      <p>一键导入，轻松开始</p>
     </td>
   </tr>
   <tr>
