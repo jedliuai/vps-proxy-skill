@@ -6,22 +6,22 @@
 
 <br>
 
-<table>
+<table width="100%">
   <tr>
-    <td align="center" valign="top" width="50%">
-      <h3>⚡ 三种强力节点</h3>
-      <p><strong>一次交付3种目前最强的VPN节点：</strong></p>
-      <p>Hysteria2 · Trojan · VLESS REALITY</p>
-    </td>
-    <td align="center" valign="top" width="50%">
-      <h3>🔗 订阅一键导入</h3>
-      <p><strong>一次交付适配订阅</strong></p>
-      <p>Clash · 小火箭 · V2Ray</p>
-      <p>一键导入，轻松开始</p>
+    <td align="center" width="100%">
+      <h3>⚡ 一次交付三种强力节点</h3>
+      <p><strong>Hysteria2 &nbsp; · &nbsp; Trojan &nbsp; · &nbsp; VLESS&nbsp;REALITY</strong></p>
     </td>
   </tr>
   <tr>
-    <td colspan="2" align="center">
+    <td align="center">
+      <h3>🔗 订阅一键导入</h3>
+      <p><strong>Clash &nbsp; · &nbsp; 小火箭 &nbsp; · &nbsp; V2Ray</strong></p>
+      <p>一次交付适配订阅，一键导入，轻松开始</p>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
       <h3>💎 五年经验 · 一个 Skill</h3>
       <p><strong>1个skill浓缩了我5年的翻墙经验和VPN节点搭建经验，</strong><br>
       也浓缩和吸收了我看过的无数youtube大神教程和X大神教程</p>
