@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Exercise local wrapper guards in a disposable repo with SSH/SCP intercepted."""
 import os
+import json
 from pathlib import Path
 import shutil
 import subprocess
@@ -9,7 +10,7 @@ import unittest
 
 
 class EntrypointTests(unittest.TestCase):
-    def invoke(self, arguments):
+    def invoke(self, arguments, remote_stub="throw 'REMOTE_CALLED'"):
         with tempfile.TemporaryDirectory(prefix="proxy-entry-test-") as temp:
             root = Path(temp)
             (root / "scripts").mkdir()
@@ -17,8 +18,8 @@ class EntrypointTests(unittest.TestCase):
             target = root / "scripts" / source.name
             shutil.copyfile(source, target)
             shutil.copytree(source.parent.parent / "deploy", root / "deploy")
-            # Any remote call fails visibly; no network operation is possible.
-            command = ("function ssh { throw 'REMOTE_CALLED' }; function scp { throw 'REMOTE_CALLED' }; "
+            # SSH/SCP are intercepted; no network operation is possible.
+            command = ("function ssh { " + remote_stub + " }; function scp { throw 'REMOTE_CALLED' }; "
                        "& '" + str(target).replace("'", "''") + "' " + arguments)
             env = {k: v for k, v in os.environ.items() if not k.startswith("VPS_")}
             result = subprocess.run(["pwsh", "-NoProfile", "-Command", command],
@@ -47,6 +48,34 @@ class EntrypointTests(unittest.TestCase):
         code, output = self.invoke("-Action status -SshHost test-host -Domain node.customer.net")
         self.assertNotEqual(code, 0)
         self.assertIn("REMOTE_CALLED", output)
+
+    def test_status_does_not_read_raw_journal(self):
+        stub = "if (($args -join ' ') -match 'journalctl|--full status') { throw 'RAW_LOGS_REQUESTED' }; $global:LASTEXITCODE = 0; 'SAFE_STATUS'"
+        code, output = self.invoke('-Action status -SshHost test-host -Domain node.customer.net', stub)
+        self.assertEqual(code, 0, output)
+        self.assertIn('SAFE_STATUS', output)
+
+    def test_logs_pipe_the_safe_helper_and_return_json(self):
+        stub = "if (($input -join '') -notmatch 'def decode_message') { throw 'HELPER_NOT_PIPED' }; $global:LASTEXITCODE = 0; '{\"schema\":1,\"units\":{},\"observed_first_utc\":\"2026-10-10T13:00:00+00:00\"}'"
+        code, output = self.invoke('-Action logs -SshHost test-host -Domain node.customer.net', stub)
+        self.assertEqual(code, 0, output)
+        result = json.loads(output)
+        self.assertEqual(result['schema'], 1)
+        self.assertEqual(result['observed_first_utc'], '2026-10-10T13:00:00+00:00')
+
+    def test_logs_failure_and_invalid_json_do_not_echo_output(self):
+        for exit_code in (0, 1):
+            stub = f"$global:LASTEXITCODE = {exit_code}; 'fixture-private-remote-output'"
+            code, output = self.invoke('-Action logs -SshHost test-host -Domain node.customer.net', stub)
+            self.assertNotEqual(code, 0)
+            self.assertNotIn('fixture-private-remote-output', output)
+            self.assertIn('no remote output was displayed', output)
+
+    def test_logs_transport_exception_does_not_echo_details(self):
+        code, output = self.invoke('-Action logs -SshHost test-host -Domain node.customer.net', "throw 'fixture-private-remote-error'")
+        self.assertNotEqual(code, 0)
+        self.assertNotIn('fixture-private-remote-error', output)
+        self.assertIn('no remote output was displayed', output)
 
 
 if __name__ == "__main__":

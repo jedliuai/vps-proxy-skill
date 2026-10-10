@@ -42,6 +42,8 @@ Linux/macOS：使用 SSH/SCP 传输 `deploy/server-bootstrap.sh` **及同目录 
 
 ## C. 先验收直连订阅
 
+新部署会把 QUIC 的 UDP 收发缓冲上限设为至少 7 MiB，保留更大的已有运行值。它不修改默认缓冲大小，也不保证线路稳定；服务启动后仍需检查实际 socket。已有节点的单项优化与回退见 [诊断参考](troubleshooting.md#晚高峰断连先对照再调-udp-缓冲)，不要为补这个设置重跑完整部署。
+
 服务器生成 `/var/lib/proxy-subscription/clash.yaml`、`v2ray.txt` 和 `/etc/proxy-stack/subscription-urls.txt`。权威凭据源在 `/etc/proxy-stack/secrets.env`；生成的 Xray/Hysteria 配置、订阅正文和 URL 副本同样携带可使用的凭据，全部按敏感数据保护，不打印。
 
 先逐协议完成 [验收](validation.md)。尚未配置 Cloudflare 时，manifest 中 `PRIMARY_*` 只是未来路径，不代表可用；**只交付已测通的 `BACKUP_CLASH` / `BACKUP_V2RAY`，对用户标为“Clash 订阅 / V2Ray·小火箭订阅”**。不用让用户理解备用命名，也不交付五个链接。

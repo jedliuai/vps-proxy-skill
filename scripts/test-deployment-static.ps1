@@ -95,6 +95,18 @@ Require-OrderedText -Name 'host backup inputs' -Content $backupSection -Values @
     'cp -a --parents "${path}" "${BACKUP_DIR}/"'
 )
 
+# QUIC buffer ceilings are persisted without lowering an existing larger value.
+$sysctlConfig = Get-HeredocBody -Start 'cat >/etc/sysctl.d/60-proxy-stack.conf <<EOF'
+Require-Text -Name 'UDP receive ceiling persisted' -Text 'net.core.rmem_max = ${udp_rmem_max}' -Content $sysctlConfig
+Require-Text -Name 'UDP send ceiling persisted' -Text 'net.core.wmem_max = ${udp_wmem_max}' -Content $sysctlConfig
+Require-Text -Name 'UDP receive ceiling retains larger value' -Text 'if (( udp_rmem_max < 7340032 )); then udp_rmem_max=7340032; fi' -Content $bootstrap
+Require-Text -Name 'UDP send ceiling retains larger value' -Text 'if (( udp_wmem_max < 7340032 )); then udp_wmem_max=7340032; fi' -Content $bootstrap
+Require-OrderedText -Name 'UDP ceilings applied before proxy activation' -Content $bootstrap -Values @(
+    'cat >/etc/sysctl.d/60-proxy-stack.conf <<EOF',
+    'sysctl --system >/dev/null',
+    'systemctl restart xray hysteria-server'
+)
+
 # The firewall must be ordered before both proxies, and both proxy units must
 # require it. This keeps boot and manual restarts fail-closed even if the
 # deployment activation sequence is bypassed.

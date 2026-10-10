@@ -632,8 +632,15 @@ EOF
 nginx -t
 systemctl reload nginx
 
-cat >/etc/sysctl.d/60-proxy-stack.conf <<'EOF'
+# QUIC requests larger sockets; preserve any already higher runtime ceilings.
+udp_rmem_max="$(cat /proc/sys/net/core/rmem_max)"
+udp_wmem_max="$(cat /proc/sys/net/core/wmem_max)"
+if (( udp_rmem_max < 7340032 )); then udp_rmem_max=7340032; fi
+if (( udp_wmem_max < 7340032 )); then udp_wmem_max=7340032; fi
+cat >/etc/sysctl.d/60-proxy-stack.conf <<EOF
 net.core.default_qdisc = fq
+net.core.rmem_max = ${udp_rmem_max}
+net.core.wmem_max = ${udp_wmem_max}
 net.ipv4.tcp_congestion_control = bbr
 net.ipv4.tcp_mtu_probing = 1
 net.ipv4.tcp_fastopen = 3

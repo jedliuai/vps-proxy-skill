@@ -72,10 +72,28 @@ switch ($Action) {
         } | Format-List
     }
     'status' {
-        Invoke-Ssh "systemctl --no-pager --full status xray hysteria-server nginx proxy-firewall vnstat; echo LOAD; uptime; echo MEMORY; free -h; echo SOCKETS; ss -s; echo LISTENERS; ss -lntup | grep -E ':(22|80|443|8443|10443|$XrayPort)\\b' || true"
+        # systemctl status appends raw journal lines, which may contain credentials.
+        Invoke-Ssh 'systemctl show xray hysteria-server nginx proxy-firewall vnstat -p Id -p ActiveState -p SubState -p NRestarts -p MemoryCurrent -p ActiveEnterTimestamp; uptime; free -h; ss -s'
     }
     'logs' {
-        Invoke-Ssh "sudo journalctl --no-pager -n 200 -u xray -u hysteria-server -u nginx -u proxy-firewall"
+        $helper = Join-Path $repoRoot 'deploy/journal-summary.py'
+        if (-not (Test-Path -LiteralPath $helper)) { throw 'Missing safe journal summary helper.' }
+        # Capture both streams: an SSH/sudo failure must not expose raw output.
+        try {
+            $raw = Get-Content -Raw -LiteralPath $helper | & ssh -- $SshHost 'sudo -n python3 - --since-days 7 --lines 2000' 2>&1
+        } catch { throw 'Safe journal summary failed; no remote output was displayed.' }
+        if ($LASTEXITCODE -ne 0) { throw 'Safe journal summary failed; no remote output was displayed.' }
+        $document = $null
+        try {
+            # Preserve UTC strings: ConvertFrom-Json may silently convert them to local time.
+            $document = [System.Text.Json.JsonDocument]::Parse(($raw -join "`n"))
+            $summary = $document.RootElement
+            if ($summary.GetProperty('schema').GetInt32() -ne 1 -or
+                $summary.GetProperty('units').ValueKind -ne [System.Text.Json.JsonValueKind]::Object) { throw 'Invalid summary schema.' }
+            $safeJson = $summary.GetRawText()
+        } catch { throw 'Invalid safe journal summary; no remote output was displayed.' }
+        finally { if ($document) { $document.Dispose() } }
+        Write-Output $safeJson
     }
     'restart' {
         Invoke-Ssh 'sudo systemctl restart xray hysteria-server && systemctl is-active xray hysteria-server'

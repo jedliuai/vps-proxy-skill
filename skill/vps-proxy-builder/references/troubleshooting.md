@@ -48,6 +48,22 @@
 
 `US-Auto` 是 HY2→Trojan→REALITY 顺序 fallback；不是延迟最低自动优选，界面手动固定会改变行为。Clash策略不能通过URI自动搬到小火箭。
 
+## 晚高峰断连：先对照，再调 UDP 缓冲
+
+国内服务正常、只有外网异常时，在同一时段对照主机资源与重启、服务器直连小请求、家庭网关/国内网络，以及隔离客户端逐协议请求。白天测通不能排除晚高峰问题；ICMP 超时也不能换算成业务失败率。记录样本数与耗时分位数，不凭单次延迟或历史累计计数认定根因。
+
+Hysteria/QUIC 还要检查 `/proc/sys/net/core/rmem_max`、`wmem_max` 与 `sudo ss -unamp '( sport = :443 )'` 的 `skmem`。只看 sysctl 不足以证明现有 socket 已扩大。对 `/proc/net/snmp` 的 UDP `RcvbufErrors`、`SndbufErrors` 取 30–60 秒增量；开机以来的累计错误不代表当前仍在丢包。
+
+本模板为 UDP 收发上限设置 7 MiB，依据 [quic-go 的 Linux 缓冲建议](https://quic-go.net/docs/quic/optimizations/)。这是上限，不是每条连接立即占用的内存，也不是跨境拥堵的解决保证。已有节点若低于此值且需要优化，保留更大的已有值，备份原运行值和专用 sysctl 文件；持有与 bootstrap 相同的部署锁，只调整这两个键。提前说明短暂断流，只重启 Hysteria 重新申请缓冲，确认实际 socket、TCP 代理进程未变并逐协议复测。失败恢复本次文件和原值；不要运行完整 bootstrap、改默认缓冲、协议、凭据或防火墙来完成这项调整。Linux 的 `ss` 可能显示约两倍的缓冲核算值，不把它当额外调参目标。
+
+## 日志与正在运行的客户端
+
+使用 `scripts/vps-proxy.ps1 -Action logs` 获取固定类别计数，`status` 只输出服务属性，不再转发原始 journal。`deploy/journal-summary.py` 可通过已授权 SSH 的 stdin 在服务器执行，无需安装；读取失败只报状态，不回显 stderr。`MESSAGE` 可能是字符串、重复字符串数组或 UTF-8 字节数组（包含 ANSI），不能将字节数组直接字符串化。类别可重叠，timeout/断开数不是 HTTP 请求失败数。
+
+摘要中的 `observed_first_utc`/`observed_last_utc` 是这批记录的实际范围，不等于完整日志保留期；`record_limit_reached` 提示可能截断。请求近 7/30 天不代表日志真的保留那么久；空记录或读取失败不等于没有故障。若必须查原始证据，留在服务器或用户独占文件，只输出脱敏结论。
+
+检查 Clash 正在运行的策略组和连接使用的节点，而不只读保存的 YAML。Windows Clash Verge 的实际 Mihomo 命名管道可能与磁盘配置不同；只使用已核验的运行实例接口，以只读方式查询，不开放公网控制端口。控制密钥不输出，管道超时不能认定节点断网。不要覆盖用户配置或清空全部连接“试一下”。
+
 ## 恢复边界
 
 先记录此次修改的精确文件、服务与备份。主机快照恢复、软件降级、凭据轮换、云防火墙回退影响不同：向用户说明再操作。不要 `rm -rf` 系统目录或清空 nft ruleset；不要覆盖与本栈无关的SSH/Nginx文件。

@@ -68,4 +68,10 @@ if ($LASTEXITCODE -ne 0) { throw 'Cloudflare Worker failed JavaScript syntax val
 & node --test (Join-Path $repoRoot 'cloudflare-worker/test/index.test.js')
 if ($LASTEXITCODE -ne 0) { throw 'Cloudflare Worker unit tests failed.' }
 
-Write-Output 'Repository validation passed: no secret patterns found; Bash, PowerShell static invariants, and Cloudflare Worker checks are valid.'
+# Prefer python: on Windows python3 can be a nonfunctional App Execution Alias.
+$pythonCommand = Get-Command python -ErrorAction SilentlyContinue
+if (-not $pythonCommand) { $pythonCommand = Get-Command python3 -ErrorAction Stop }
+& $pythonCommand.Source -B (Join-Path $repoRoot 'scripts/test-journal-summary.py')
+if ($LASTEXITCODE -ne 0) { throw 'Safe journal summary tests failed.' }
+
+Write-Output 'Repository validation passed: no secret patterns found; Bash, PowerShell, safe journal summaries, and Cloudflare Worker checks are valid.'
