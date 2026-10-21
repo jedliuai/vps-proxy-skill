@@ -1,3 +1,5 @@
+> **Chatgpt代充：[aishopvip.com](https://aishopvip.com)**
+
 # VPS Proxy Skill
 
 [中文](./README.md) · [Quick start](#quick-start) · [Releases](https://github.com/jedliuai/vps-proxy-skill/releases) · [Skill](./skill/vps-proxy-builder/SKILL.md)
